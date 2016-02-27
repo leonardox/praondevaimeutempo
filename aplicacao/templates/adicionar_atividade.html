@@ -1,18 +1,63 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <ul>
-        <li><a href="/">Logout</a></li>
-        <li><a href={% url 'atividades' %}>Voltar</a></li>
-    </ul>
+    {% load staticfiles %}
 
-    <h2>Adicionar Atividade</h2>
-    <form action="" method="POST">
-    {% csrf_token %}
-        <label>Nome:</label> {{ form.nome }}
-        <label>Tempo investido:</label> {{ form.tempo_investido }}
-        <label>Data:</label> {{ form.data }}
-        <button type="submit">Adicionar</button>
-    </form>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                Dashboard
+                <small>Gerencie o seu tempo</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <a href="/">Logout</a>
+            <a href= {% url 'adicionar-atividade' %}>Adicionar novo item</a>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Adicionar novo item</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="id_nome">Nome</label>
+                                    {{ form.nome }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_tempo_investido">Tempo investido</label>
+                                    {{ form.tempo_investido }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_data">Data</label>
+                                    {{ form.data }}
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+            <ul>
+            </ul>
+
+        </section>
+    </div>
 
 {% endblock %}
