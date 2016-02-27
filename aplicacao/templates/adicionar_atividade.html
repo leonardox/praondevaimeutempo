@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <ul>
+        <li><a href="/">Logout</a></li>
+        <li><a href={% url 'atividades' %}>Voltar</a></li>
+    </ul>
+
+    <h2>Adicionar Atividade</h2>
+    <form action="" method="POST">
+    {% csrf_token %}
+        <label>Nome:</label> {{ form.nome }}
+        <label>Tempo investido:</label> {{ form.tempo_investido }}
+        <label>Data:</label> {{ form.data }}
+        <button type="submit">Adicionar</button>
+    </form>
+
+{% endblock %}
