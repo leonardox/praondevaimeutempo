@@ -1,0 +1,1 @@
+web: gunicorn praondevaimeutempo.wsgi --log-file -
