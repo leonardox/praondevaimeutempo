@@ -29,6 +29,7 @@ class AdicionarAtividade(FormView):
     form_class = FormAtividade
     success_url = '/'
 
+
     def form_valid(self, form):
         data = form.cleaned_data
         atividade = Atividade()
