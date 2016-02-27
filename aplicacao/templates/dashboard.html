@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block body %}
+	<ul>
+		<li><a href= "/">Logout</a></li>
+		<li><a href= "/">Adicionar novo item</a></li>
+	</ul>
+
+    <h2>LISTA DE ATIVIDADES</h2>
+	<ul>
+		{% for atividade in lista_atividades %}
+			<li>
+				{% load staticfiles %}
+				<a href="/"><img src="{% static "imagens/lixeira.png" %}"/></a>
+				<a href="/">
+					{{ atividade.data|date:'d/m/Y'}} - {{ atividade.nome }} - {{ atividade.tempo_investido }} Hora(s)
+				</a>
+			</li>
+		{% empty%}
+			<li>Sem itens na lista</li>
+		{% endfor %}
+	</ul>
+
+
+{% endblock %}
