@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+
+class Atividade(models.Model):
+    """
+    Esta classe representa uma atividade
+    """
+    nome = models.CharField(max_length=50)
+    tempo_investido = models.IntegerField()
