@@ -8,7 +8,7 @@ class FormAtividade(forms.Form):
     """
 
     nome = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    tempo_investido = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    data = forms.DateField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'max-length': '50',
-                                      'placeholder': 'A data deve estar no formato: 2016-02-27'}))
+    tempo_investido = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                       'type': 'number'}))
+    data = forms.DateField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                         'max-length': '50'}))

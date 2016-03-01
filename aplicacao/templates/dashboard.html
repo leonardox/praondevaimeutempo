@@ -18,20 +18,27 @@
 
         <!-- Main content -->
         <section class="content">
-            <a href="/">Logout</a>
-            <a href= {% url 'adicionar-atividade' %}>Adicionar novo item</a>
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="/">Logout</a>
+                </div>
+                <div class="col-md-2 col-md-offset-2">
+                    <a class="btn btn-danger" href= {% url 'adicionar-atividade' %}>Adicionar Atividade</a>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-sm-6">
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Lista de atividades</h3>
                             <div class="box-tools">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-                                    <button type="button" class="btn btn-primary btn-sm"
-                                            data-toggle="modal" data-target="#myModal">
-                                        Adicionar atividade
-                                    </button>
-                                </div>
+{#                                <div class="input-group input-group-sm" style="width: 150px;">#}
+{#                                    <button type="button" class="btn btn-primary btn-sm"#}
+{#                                            data-toggle="modal" data-target="#myModal">#}
+{#                                        Adicionar atividade#}
+{#                                    </button>#}
+{#                                </div>#}
                             </div>
                         </div>
                         <!-- /.box-header -->
