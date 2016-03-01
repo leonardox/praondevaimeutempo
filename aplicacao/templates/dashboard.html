@@ -42,15 +42,15 @@
                                     <th>Nome</th>
                                     <th style="width: 200px">Tempo investido (Horas)</th>
                                 </tr>
-                                {% for atividade in lista_atividades %}
-                                    <tr>
-                                        <td>{{ atividade.data|date:'d/m/Y' }}</td>
-                                        <td>{{ atividade.nome }}</td>
-                                        <td>{{ atividade.tempo_investido }}</td>
-                                    </tr>
-                                {% empty %}
-                                    <li>Sem itens na lista</li>
-                                {% endfor %}
+                                    {% for atividade in lista_atividades_semana %}
+                                        <tr>
+                                            <td>{{ atividade.data|date:'d/m/Y' }}</td>
+                                            <td>{{ atividade.nome }}</td>
+                                            <td>{{ atividade.tempo_investido }}</td>
+                                        </tr>
+                                    {% empty %}
+                                        <li>Sem itens na lista</li>
+                                    {% endfor %}
                             </table>
                         </div>
                         <!-- /.box-body -->
