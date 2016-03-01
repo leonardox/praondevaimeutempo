@@ -23,7 +23,8 @@
                     <a href="/">Logout</a>
                 </div>
                 <div class="col-md-2 col-md-offset-2">
-                    <a class="btn btn-danger" href= {% url 'adicionar-atividade' %}>Adicionar Atividade</a>
+                    <a class="btn btn-danger" href= {% url 'adicionar-atividade' %}>Adicionar
+                        Atividade</a>
                 </div>
             </div>
 
@@ -31,14 +32,14 @@
                 <div class="col-sm-6">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Lista de atividades</h3>
+                            <h3 class="box-title">Lista de atividades da semana</h3>
                             <div class="box-tools">
-{#                                <div class="input-group input-group-sm" style="width: 150px;">#}
-{#                                    <button type="button" class="btn btn-primary btn-sm"#}
-{#                                            data-toggle="modal" data-target="#myModal">#}
-{#                                        Adicionar atividade#}
-{#                                    </button>#}
-{#                                </div>#}
+                                {#                                <div class="input-group input-group-sm" style="width: 150px;">#}
+                                {#                                    <button type="button" class="btn btn-primary btn-sm"#}
+                                {#                                            data-toggle="modal" data-target="#myModal">#}
+                                {#                                        Adicionar atividade#}
+                                {#                                    </button>#}
+                                {#                                </div>#}
                             </div>
                         </div>
                         <!-- /.box-header -->
@@ -49,15 +50,15 @@
                                     <th>Nome</th>
                                     <th style="width: 200px">Tempo investido (Horas)</th>
                                 </tr>
-                                    {% for atividade in lista_atividades_semana %}
-                                        <tr>
-                                            <td>{{ atividade.data|date:'d/m/Y' }}</td>
-                                            <td>{{ atividade.nome }}</td>
-                                            <td>{{ atividade.tempo_investido }}</td>
-                                        </tr>
-                                    {% empty %}
-                                        <li>Sem itens na lista</li>
-                                    {% endfor %}
+                                {% for atividade in lista_atividades %}
+                                    <tr>
+                                        <td>{{ atividade.data|date:'d/m/Y' }}</td>
+                                        <td>{{ atividade.nome }}</td>
+                                        <td>{{ atividade.tempo_investido }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <li>Sem itens na lista</li>
+                                {% endfor %}
                             </table>
                         </div>
                         <!-- /.box-body -->
