@@ -42,7 +42,9 @@
                                 <tr>
                                     <th class="text-center">Data</th>
                                     <th class="text-center">Nome</th>
-                                    <th class="text-center" style="width: 200px">Tempo investido (Horas)</th>
+                                    <th class="text-center" style="width: 200px">Tempo investido
+                                        (Horas)
+                                    </th>
                                     <th class="text-center">Categoria</th>
                                 </tr>
                                 {% for atividade in lista_atividades %}
@@ -53,7 +55,9 @@
                                         <td align="center">{{ atividade.categoria }}</td>
                                     </tr>
                                 {% empty %}
-                                    <td colspan="4" align="center">Ainda sem atividades nesta semana</td>
+                                    <td colspan="4" align="center">Ainda sem atividades nesta
+                                        semana
+                                    </td>
                                 {% endfor %}
                             </table>
                         </div>
@@ -75,7 +79,11 @@
                         <div class="box-body text-center">
                             <div class="sparkline" data-type="pie" data-offset="90"
                                  data-width="100px" data-height="100px">
-                                20,30,50
+                                {% for item in resumo %}
+                                    {{ item.1 }},
+                                {% empty %}
+                                    1
+                                {% endfor %}
                             </div>
                         </div>
                         <!-- /.box-body -->
