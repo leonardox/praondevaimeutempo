@@ -63,6 +63,9 @@
     //INITIALIZE SPARKLINE CHARTS
     $(".sparkline").each(function () {
       var $this = $(this);
+      var opts = $.extend($this.data(), {
+            sliceColors : ['red', 'green', 'blue']
+      });
       $this.sparkline('html', $this.data());
     });
 

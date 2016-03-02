@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, FormView
 
 from aplicacao.forms import FormAtividade
 from aplicacao.models import Atividade
-
+import operator
 
 def index(request):
     return render_to_response('index.html')
@@ -16,6 +16,15 @@ class ListaAtividades(TemplateView):
     Esta classe lista todas as atividades cadastradas.
     """
     template_name = 'dashboard.html'
+    def get_resume(self, activity_list):
+        resume_dict = {};
+        for activity in activity_list:
+            if activity.categoria in resume_dict:
+                resume_dict[activity.categoria] += activity.tempo_investido
+            else:
+                resume_dict[activity.categoria] = activity.tempo_investido
+
+        return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True)
 
     def get(self, request, *args, **kwargs):
 
@@ -23,8 +32,12 @@ class ListaAtividades(TemplateView):
         start_week = date - datetime.timedelta(date.weekday()+1)
         end_week = start_week + datetime.timedelta(6)
         lista_atividades = Atividade.objects.filter(data__range=[start_week, end_week])
-
-        context = self.get_context_data(lista_atividades=lista_atividades)
+        resumo = self.get_resume(lista_atividades)
+        print resumo
+        context = self.get_context_data(
+            lista_atividades=lista_atividades,
+            resumo=resumo
+        )
         return self.render_to_response(context)
 
 
