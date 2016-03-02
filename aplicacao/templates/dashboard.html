@@ -16,13 +16,13 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-2">
-                    <a href="/">Logout</a>
+                    <a class="btn btn-default" href="/">Logout</a>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="box">
+                    <div class="box" style="margin-top: 20px;">
                         <div class="box-header">
                             <h3 class="box-title">Lista de atividades da semana</h3>
                             <div class="box-tools">
@@ -40,15 +40,17 @@
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-condensed">
                                 <tr>
-                                    <th>Data</th>
-                                    <th>Nome</th>
-                                    <th style="width: 200px">Tempo investido (Horas)</th>
+                                    <th class="text-center">Data</th>
+                                    <th class="text-center">Nome</th>
+                                    <th class="text-center" style="width: 200px">Tempo investido (Horas)</th>
+                                    <th class="text-center">Categoria</th>
                                 </tr>
                                 {% for atividade in lista_atividades %}
                                     <tr>
-                                        <td>{{ atividade.data|date:'d/m/Y' }}</td>
-                                        <td>{{ atividade.nome }}</td>
-                                        <td>{{ atividade.tempo_investido }}</td>
+                                        <td align="center">{{ atividade.data|date:'d/m/Y' }}</td>
+                                        <td align="center">{{ atividade.nome }}</td>
+                                        <td align="center">{{ atividade.tempo_investido }}</td>
+                                        <td align="center">{{ atividade.categoria }}</td>
                                     </tr>
                                 {% empty %}
                                     <li>Sem itens na lista</li>

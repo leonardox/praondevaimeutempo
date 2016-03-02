@@ -7,4 +7,5 @@ class Atividade(models.Model):
     """
     nome = models.CharField(max_length=50)
     tempo_investido = models.IntegerField()
+    categoria = models.CharField(max_length=14)
     data = models.DateField(default=django.utils.timezone.now)

@@ -61,6 +61,7 @@ class AdicionarAtividade(FormView):
         atividade = Atividade()
         atividade.nome = data['nome']
         atividade.tempo_investido = data['tempo_investido']
+        atividade.categoria = data['categoria']
         atividade.data = data['data']
         atividade.save()
 
