@@ -15,6 +15,7 @@ class ListaAtividades(TemplateView):
     """
     Esta classe lista todas as atividades cadastradas.
     """
+
     template_name = 'dashboard.html'
     def get_resume(self, activity_list):
         resume_dict = {};

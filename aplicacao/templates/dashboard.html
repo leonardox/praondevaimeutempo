@@ -66,9 +66,9 @@
                     <!-- /.box -->
                 </div>
                 <div class="col-sm-6">
-                    <div class="box box-solid">
+                    <div class="box box-solid" style="margin-top: 20px;">
                         <div class="box-header">
-                            <h3 class="box-title text-danger">Sparkline Pie</h3>
+                            <h3 class="box-title text-danger">Relatório semanal</h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-default btn-sm"><i
@@ -84,6 +84,19 @@
                                 {% empty %}
                                     1
                                 {% endfor %}
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="row">
+                                {% with 'green red' as colors %}
+                                    {% for item in resumo %}
+                                        <div class="col-sm-4 legenda-{{ forloop.counter }}">
+                                            {{ item.0 }} - {{ item.1 }} Horas
+                                        </div>
+                                    {% empty %}
+                                        1
+                                    {% endfor %}
+                                {% endwith %}
                             </div>
                         </div>
                         <!-- /.box-body -->

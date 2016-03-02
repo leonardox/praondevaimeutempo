@@ -59,12 +59,18 @@
       }
     });
     /* END JQUERY KNOB */
-
+    var colors = ['#000099', '#00FF99', '#990099', '#CC0099', 'FF0099', 'FFFF66'];
+    for(var i = 0; i < colors.length; i++){
+        var color = colors[i];
+        $(".legenda-" + (i+1)).css({
+            'color': color
+        });
+    }
     //INITIALIZE SPARKLINE CHARTS
     $(".sparkline").each(function () {
       var $this = $(this);
       var opts = $.extend($this.data(), {
-            sliceColors : ['red', 'green', 'blue']
+            sliceColors : colors
       });
       $this.sparkline('html', $this.data());
     });
