@@ -10,10 +10,6 @@
                 Dashboard
                 <small>Gerencie o seu tempo</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
-            </ol>
         </section>
 
         <!-- Main content -->
@@ -21,10 +17,6 @@
             <div class="row">
                 <div class="col-md-2">
                     <a href="/">Logout</a>
-                </div>
-                <div class="col-md-2 col-md-offset-2">
-                    <a class="btn btn-danger" href= {% url 'adicionar-atividade' %}>Adicionar
-                        Atividade</a>
                 </div>
             </div>
 
@@ -34,6 +26,8 @@
                         <div class="box-header">
                             <h3 class="box-title">Lista de atividades da semana</h3>
                             <div class="box-tools">
+                                <a class="btn btn-danger" href= {% url 'adicionar-atividade' %}>Adicionar
+                                    Atividade</a>
                                 {#                                <div class="input-group input-group-sm" style="width: 150px;">#}
                                 {#                                    <button type="button" class="btn btn-primary btn-sm"#}
                                 {#                                            data-toggle="modal" data-target="#myModal">#}
