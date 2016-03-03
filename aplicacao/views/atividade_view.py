@@ -17,27 +17,12 @@ class ListaAtividades(TemplateView):
     """
 
     template_name = 'dashboard.html'
-    def get_resume(self, activity_list):
-        resume_dict = {};
-        for activity in activity_list:
-            if activity.categoria in resume_dict:
-                resume_dict[activity.categoria] += activity.tempo_investido
-            else:
-                resume_dict[activity.categoria] = activity.tempo_investido
-
-        return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True)
 
     def get(self, request, *args, **kwargs):
 
-        date = datetime.date.today()
-        start_week = date - datetime.timedelta(date.weekday()+1)
-        end_week = start_week + datetime.timedelta(6)
-        lista_atividades = Atividade.objects.filter(data__range=[start_week, end_week])
-        resumo = self.get_resume(lista_atividades)
-        print resumo
+        lista_atividades = _get_atividades_semana_atual()
         context = self.get_context_data(
             lista_atividades=lista_atividades,
-            resumo=resumo
         )
         return self.render_to_response(context)
 
@@ -82,6 +67,18 @@ class AdicionarAtividade(FormView):
         return super(AdicionarAtividade, self).form_valid(form)
 
 
+class RelatorioSemanal(TemplateView):
+    """
+    Esta classe exibe o relatório semanal
+    """
+    template_name = 'relatorio_semanal.html'
+
+    def get(self, request, *args, **kwargs):
+        resumo, total_horas = _get_resume(_get_atividades_semana_atual())
+        context = self.get_context_data(resumo=resumo, total_hotas=total_horas)
+        return self.render_to_response(context)
+
+
 def _convert_date(date):
     """
     This method converts a date to american pattern.
@@ -98,3 +95,24 @@ def _convert_date(date):
         except ValueError:
             continue
     raise ValueError
+
+
+def _get_atividades_semana_atual():
+    date = datetime.date.today()
+    start_week = date - datetime.timedelta(date.weekday()+1)
+    end_week = start_week + datetime.timedelta(6)
+    return Atividade.objects.filter(data__range=[start_week, end_week])
+
+
+def _get_resume(activity_list):
+        resume_dict = {}
+        total_horas = 0
+        for activity in activity_list:
+            if activity.categoria in resume_dict:
+                resume_dict[activity.categoria] += activity.tempo_investido
+                total_horas += activity.tempo_investido
+            else:
+                resume_dict[activity.categoria] = activity.tempo_investido
+                total_horas += activity.tempo_investido
+
+        return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas

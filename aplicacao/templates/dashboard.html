@@ -21,7 +21,7 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <div class="box" style="margin-top: 20px;">
                         <div class="box-header">
                             <h3 class="box-title">Lista de atividades da semana</h3>
@@ -38,7 +38,8 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive no-padding">
-                            <table class="table table-condensed">
+                            <table class="table table-condensed table-responsive
+                            ">
                                 <tr>
                                     <th class="text-center">Data</th>
                                     <th class="text-center">Nome</th>
@@ -65,48 +66,7 @@
                     </div>
                     <!-- /.box -->
                 </div>
-                <div class="col-sm-6">
-                    <div class="box box-solid" style="margin-top: 20px;">
-                        <div class="box-header">
-                            <h3 class="box-title text-danger">Relatório semanal</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-default btn-sm"><i
-                                        class="fa fa-refresh"></i></button>
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body text-center">
-                            <div class="sparkline" data-type="pie" data-offset="90"
-                                 data-width="100px" data-height="100px">
-                                {% for item in resumo %}
-                                    {{ item.1 }},
-                                {% empty %}
-                                    1
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="box-footer">
-                            <div class="row">
-                                {% with 'green red' as colors %}
-                                    {% for item in resumo %}
-                                        <div class="col-sm-4 legenda-{{ forloop.counter }}">
-                                            {{ item.0 }} - {{ item.1 }} Horas
-                                        </div>
-                                    {% empty %}
-                                        1
-                                    {% endfor %}
-                                {% endwith %}
-                            </div>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
-                </div>
-            </div>
-            <ul>
-            </ul>
-
+             </div>
         </section>
     </div>
     <!-- Content Header (Page header) -->
