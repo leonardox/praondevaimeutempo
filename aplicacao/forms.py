@@ -20,3 +20,5 @@ class FormAtividade(forms.Form):
                                   widget=forms.Select(attrs={'class': 'form-control'}))
     data = forms.DateField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                          'max-length': '50'}))
+
+    prioridade = forms.BooleanField(required=False)
