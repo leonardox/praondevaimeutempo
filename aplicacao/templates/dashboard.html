@@ -48,6 +48,7 @@
                                         (Horas)
                                     </th>
                                     <th class="text-center">Categoria</th>
+                                    <th class="text-center">Prioritária</th>
                                 </tr>
                                 {% for atividade in lista_atividades %}
                                     <tr>
@@ -55,6 +56,13 @@
                                         <td align="center">{{ atividade.nome }}</td>
                                         <td align="center">{{ atividade.tempo_investido }}</td>
                                         <td align="center">{{ atividade.categoria }}</td>
+                                        <td align="center">
+                                            {% if atividade.prioridade %}
+                                                Sim
+                                            {% else %}
+                                                Não
+                                            {% endif %}
+                                        </td>
                                     </tr>
                                 {% empty %}
                                     <td colspan="4" align="center">Ainda sem atividades nesta
