@@ -7,7 +7,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                Dashboard
+                Pra onde vai meu tempo ?
                 <small>Gerencie o seu tempo</small>
             </h1>
         </section>
@@ -15,7 +15,11 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2 col-md-offset-9">
+                    <a class="btn btn-danger" href= {% url 'adicionar-atividade' %}>Adicionar
+                                    Atividade</a>
+                </div>
+                <div class="col-md-1">
                     <a class="btn btn-default" href="/">Logout</a>
                 </div>
             </div>
@@ -26,8 +30,6 @@
                         <div class="box-header">
                             <h3 class="box-title">Lista de atividades da semana</h3>
                             <div class="box-tools">
-                                <a class="btn btn-danger" href= {% url 'adicionar-atividade' %}>Adicionar
-                                    Atividade</a>
                                 {#                                <div class="input-group input-group-sm" style="width: 150px;">#}
                                 {#                                    <button type="button" class="btn btn-primary btn-sm"#}
                                 {#                                            data-toggle="modal" data-target="#myModal">#}
