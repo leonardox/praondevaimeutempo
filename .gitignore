@@ -3,5 +3,5 @@ venv
 staticfiles
 *.orig
 db.sqlite3
-/.idea
-
+*/.idea
+/.idea	
