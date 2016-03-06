@@ -18,12 +18,11 @@
 
         <!-- Main content -->
         <section class="content">
-            <a class="btn btn-danger" href="/">Voltar</a>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="box box-primary" style="margin-top: 20px;">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Adicionar novo item</h3>
+                            <h3 class="box-title">Adicionar uma nova atividade</h3>
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
@@ -35,7 +34,7 @@
                                     {{ form.nome }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="id_tempo_investido">Tempo investido</label>
+                                    <label for="id_tempo_investido">Tempo investido (em horas)</label>
                                     {{ form.tempo_investido }}
                                 </div>
                                 <div class="form-group">
@@ -54,7 +53,8 @@
                             <!-- /.box-body -->
 
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Adicionar Atividade</button>
+                                <a class="btn btn-danger" href="/">Voltar</a>
                             </div>
                         </form>
                     </div>
