@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 import datetime
-import time
 from django.shortcuts import render_to_response
 from django.views.generic import TemplateView, FormView
-from pip.utils import logging
-
 from aplicacao.forms import FormAtividade
 from aplicacao.models import Atividade
 import operator
+
 
 def index(request):
     return render_to_response('index.html')
@@ -21,7 +19,6 @@ class ListaAtividades(TemplateView):
     template_name = 'dashboard.html'
 
     def get(self, request, *args, **kwargs):
-
         lista_atividades = _get_atividades_semana_atual()
         context = self.get_context_data(
             lista_atividades=lista_atividades,
@@ -78,7 +75,8 @@ class RelatorioSemanal(TemplateView):
 
     def get(self, request, *args, **kwargs):
         resumo, total_horas, total_prioritarias = _get_resume(_get_atividades_semana_atual())
-        context = self.get_context_data(resumo=resumo, total_hotas=total_horas, total_prioritarias=total_prioritarias)
+        context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
+                                        total_prioritarias=total_prioritarias)
         return self.render_to_response(context)
 
 
@@ -94,33 +92,36 @@ def _convert_date(date):
     for format_date in formats:
         try:
             date = str(datetime.datetime.strptime(date, format_date).date())
-            print(date)
             return date
         except ValueError:
-            return str(time.strftime("%Y-%m-%d"))
             continue
-
+    raise ValueError
 
 
 def _get_atividades_semana_atual():
     date = datetime.date.today()
-    start_week = date - datetime.timedelta(date.weekday()+1)
+    if date.day == date.weekday():
+        start_week = date
+    else:
+        start_week = date - datetime.timedelta(date.weekday() + 1)
+
     end_week = start_week + datetime.timedelta(6)
     return Atividade.objects.filter(data__range=[start_week, end_week])
 
 
 def _get_resume(activity_list):
-        resume_dict = {}
-        total_horas = 0
-        total_prioritarias = 0
-        for activity in activity_list:
-            if activity.prioridade:
-                    total_prioritarias += activity.tempo_investido
-            if activity.categoria in resume_dict:
-                resume_dict[activity.categoria] += activity.tempo_investido
-                total_horas += activity.tempo_investido
-            else:
-                resume_dict[activity.categoria] = activity.tempo_investido
-                total_horas += activity.tempo_investido
+    resume_dict = {}
+    total_horas = 0
+    total_prioritarias = 0
+    for activity in activity_list:
+        if activity.prioridade:
+            total_prioritarias += activity.tempo_investido
+        if activity.categoria in resume_dict:
+            resume_dict[activity.categoria] += activity.tempo_investido
+            total_horas += activity.tempo_investido
+        else:
+            resume_dict[activity.categoria] = activity.tempo_investido
+            total_horas += activity.tempo_investido
 
-        return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas, total_prioritarias
+    return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas, \
+           total_prioritarias
