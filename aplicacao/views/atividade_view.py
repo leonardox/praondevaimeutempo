@@ -75,8 +75,8 @@ class RelatorioSemanal(TemplateView):
     template_name = 'relatorio_semanal.html'
 
     def get(self, request, *args, **kwargs):
-        resumo, total_horas = _get_resume(_get_atividades_semana_atual())
-        context = self.get_context_data(resumo=resumo, total_hotas=total_horas)
+        resumo, total_horas, total_prioritarias = _get_resume(_get_atividades_semana_atual())
+        context = self.get_context_data(resumo=resumo, total_hotas=total_horas, total_prioritarias=total_prioritarias)
         return self.render_to_response(context)
 
 
@@ -108,7 +108,10 @@ def _get_atividades_semana_atual():
 def _get_resume(activity_list):
         resume_dict = {}
         total_horas = 0
+        total_prioritarias = 0
         for activity in activity_list:
+            if activity.prioridade:
+                    total_prioritarias += activity.tempo_investido
             if activity.categoria in resume_dict:
                 resume_dict[activity.categoria] += activity.tempo_investido
                 total_horas += activity.tempo_investido
@@ -116,4 +119,4 @@ def _get_resume(activity_list):
                 resume_dict[activity.categoria] = activity.tempo_investido
                 total_horas += activity.tempo_investido
 
-        return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas
+        return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas, total_prioritarias
