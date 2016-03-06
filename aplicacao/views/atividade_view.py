@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
+import time
 from django.shortcuts import render_to_response
 from django.views.generic import TemplateView, FormView
+from pip.utils import logging
 
 from aplicacao.forms import FormAtividade
 from aplicacao.models import Atividade
@@ -92,10 +94,12 @@ def _convert_date(date):
     for format_date in formats:
         try:
             date = str(datetime.datetime.strptime(date, format_date).date())
+            print(date)
             return date
         except ValueError:
+            return str(time.strftime("%Y-%m-%d"))
             continue
-    raise ValueError
+
 
 
 def _get_atividades_semana_atual():
