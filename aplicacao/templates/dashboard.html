@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-2 col-md-offset-9">
                     <a class="btn btn-danger" href= {% url 'adicionar-atividade' %}>Adicionar
-                                    Atividade</a>
+                        Atividade</a>
                 </div>
                 <div class="col-md-1">
                     <a class="btn btn-default" href="/">Logout</a>
@@ -72,6 +72,23 @@
                             </table>
                         </div>
                         <!-- /.box-body -->
+                        <div class="box-footer clearfix">
+                            <div class="pagination pagination-sm no-margin pull-right">
+                                <span class="step-links">
+                                    {% if lista_atividades.has_previous %}
+                                        <a href="?page={{ lista_atividades.previous_page_number }}">Anterior</a>
+                                    {% endif %}
+
+                                    <span class="current">
+                                        Página {{ lista_atividades.number }} de {{ lista_atividades.paginator.num_pages }}.
+                                    </span>
+
+                                    {% if lista_atividades.has_next %}
+                                        <a href="?page={{ lista_atividades.next_page_number }}">Próxima</a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.box -->
                 </div>

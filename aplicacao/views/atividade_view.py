@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, FormView
 from aplicacao.forms import FormAtividade
 from aplicacao.models import Atividade
 import operator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):
@@ -20,6 +21,16 @@ class ListaAtividades(TemplateView):
 
     def get(self, request, *args, **kwargs):
         lista_atividades = _get_atividades_semana_atual()
+        page = request.GET.get('page')
+        max = len(lista_atividades)
+        paginator = Paginator(lista_atividades, 10)
+        try:
+            lista_atividades = paginator.page(page)
+        except PageNotAnInteger:
+            lista_atividades = paginator.page(1)
+        except EmptyPage:
+            lista_atividades = paginator.page(paginator.num_pages)
+
         context = self.get_context_data(
             lista_atividades=lista_atividades,
         )
