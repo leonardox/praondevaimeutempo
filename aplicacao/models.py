@@ -22,4 +22,3 @@ class Atividade(models.Model):
     categoria = models.CharField(max_length=14)
     data = models.DateField(default=django.utils.timezone.now)
     prioridade = models.BooleanField(default=False)
-    user = models.ForeignKey(Usuario)
