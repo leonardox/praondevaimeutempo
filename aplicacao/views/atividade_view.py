@@ -1,15 +1,48 @@
 # -*- coding: utf-8 -*-
 import datetime
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.views.generic import TemplateView, FormView
 from aplicacao.forms import FormAtividade
-from aplicacao.models import Atividade
+from aplicacao.models import Atividade, Usuario
 import operator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-def index(request):
-    return render_to_response('index.html')
+class LoginView(TemplateView):
+    """
+    Esta classe gerencia o login
+    """
+    template_name = 'login.html'
+
+
+def logout(request):
+    """
+    this class limpa a sessão de um usuário
+    """
+    request.session['id'] = None
+    return redirect("https://mail.google.com/mail/u/0/?logout&hl=en")
+
+
+def adicionar_usuario(request):
+    """
+    Classe que adiciona um usuário e inicia a sessão.
+    """
+    data = request.POST
+    nome = data.get('nome')
+    email = data.get('email')
+    foto = data.get('foto')
+    user_id = data.get('user_id')
+    try:
+        usuario = Usuario.objects.get(email=email)
+    except:
+        usuario = Usuario(nome=nome, email=email, foto=foto, user_id=user_id)
+        usuario.save()
+
+    request.session['id'] = usuario.user_id
+    request.session['nome'] = usuario.nome
+    request.session['foto'] = usuario.foto
+
+    return redirect('atividades')
 
 
 class ListaAtividades(TemplateView):
@@ -20,7 +53,12 @@ class ListaAtividades(TemplateView):
     template_name = 'dashboard.html'
 
     def get(self, request, *args, **kwargs):
-        lista_atividades = _get_atividades_semana_atual()
+        try:
+            if not request.session['id']:
+                return redirect('login')
+        except:
+            return redirect('login')
+        lista_atividades = _get_atividades_semana_atual(request.session['id'])
         page = request.GET.get('page')
         max = len(lista_atividades)
         paginator = Paginator(lista_atividades, 10)
@@ -30,9 +68,10 @@ class ListaAtividades(TemplateView):
             lista_atividades = paginator.page(1)
         except EmptyPage:
             lista_atividades = paginator.page(paginator.num_pages)
-
         context = self.get_context_data(
             lista_atividades=lista_atividades,
+            foto=request.session['foto'],
+            nome=request.session['nome']
         )
         return self.render_to_response(context)
 
@@ -44,6 +83,19 @@ class AdicionarAtividade(FormView):
     template_name = 'adicionar_atividade.html'
     form_class = FormAtividade
     success_url = '/'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            if not request.session['id']:
+                return redirect('login')
+        except:
+            return redirect('login')
+        context = self.get_context_data(
+            foto=request.session['foto'],
+            nome=request.session['nome'],
+            user_id=request.session['id']
+        )
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         """
@@ -73,6 +125,8 @@ class AdicionarAtividade(FormView):
         atividade.categoria = data['categoria']
         atividade.data = data['data']
         atividade.prioridade = data['prioridade']
+        user = Usuario.objects.get(user_id=data['user'])
+        atividade.user = user
         atividade.save()
 
         return super(AdicionarAtividade, self).form_valid(form)
@@ -85,9 +139,17 @@ class RelatorioSemanal(TemplateView):
     template_name = 'relatorio_semanal.html'
 
     def get(self, request, *args, **kwargs):
-        resumo, total_horas, total_prioritarias = _get_resume(_get_atividades_semana_atual())
+        try:
+            if not request.session['id']:
+                return redirect('login')
+        except:
+            return redirect('login')
+        resumo, total_horas, total_prioritarias = _get_resume(
+            _get_atividades_semana_atual(request.session['id']))
         context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
-                                        total_prioritarias=total_prioritarias)
+                                        total_prioritarias=total_prioritarias,
+                                        foto=request.session['foto'],
+                                        nome=request.session['nome'])
         return self.render_to_response(context)
 
 
@@ -109,7 +171,7 @@ def _convert_date(date):
     raise ValueError
 
 
-def _get_atividades_semana_atual():
+def _get_atividades_semana_atual(user_id):
     date = datetime.date.today()
     if date.day == date.weekday():
         start_week = date
@@ -117,7 +179,8 @@ def _get_atividades_semana_atual():
         start_week = date - datetime.timedelta(date.weekday() + 1)
 
     end_week = start_week + datetime.timedelta(6)
-    return Atividade.objects.filter(data__range=[start_week, end_week])
+    user = Usuario.objects.get(user_id=user_id)
+    return Atividade.objects.filter(data__range=[start_week, end_week], user=user.id)
 
 
 def _get_resume(activity_list):

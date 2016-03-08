@@ -34,7 +34,8 @@
                                     {{ form.nome }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="id_tempo_investido">Tempo investido (em horas)</label>
+                                    <label for="id_tempo_investido">Tempo investido (em
+                                        horas)</label>
                                     {{ form.tempo_investido }}
                                 </div>
                                 <div class="form-group">
@@ -49,11 +50,15 @@
                                     <label for="id_prioridade">Prioritária: &nbsp</label>
                                     {{ form.prioridade }}
                                 </div>
+                                <div class="hidden">
+                                    {{ form.user }}
+                                </div>
                             </div>
                             <!-- /.box-body -->
 
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">Adicionar Atividade</button>
+                                <button type="submit" class="btn btn-primary">Adicionar Atividade
+                                </button>
                                 <a class="btn btn-danger" href="/">Voltar</a>
                             </div>
                         </form>
@@ -67,6 +72,13 @@
         </section>
     </div>
 
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script>
+    $(document).ready(function (){
+        $('#id_user').val('{{ user_id }}');
+    });
+    </script>
 {% endblock %}
 
 

@@ -22,3 +22,4 @@ class FormAtividade(forms.Form):
                                                          'max-length': '50'}))
 
     prioridade = forms.BooleanField(required=False)
+    user = forms.CharField(max_length=100, required=False)
