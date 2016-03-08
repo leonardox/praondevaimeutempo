@@ -58,7 +58,7 @@ class ListaAtividades(TemplateView):
                 return redirect('login')
         except:
             return redirect('login')
-        lista_atividades = _get_atividades_semana_atual(request.session['id'])
+        lista_atividades = _get_atividades_semana(request.session['id'], 0)
         page = request.GET.get('page')
         max = len(lista_atividades)
         paginator = Paginator(lista_atividades, 10)
@@ -145,7 +145,7 @@ class RelatorioSemanal(TemplateView):
         except:
             return redirect('login')
         resumo, total_horas, total_prioritarias = _get_resume(
-            _get_atividades_semana_atual(request.session['id']))
+            _get_atividades_semana(request.session['id'], 0))
         context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
                                         total_prioritarias=total_prioritarias,
                                         foto=request.session['foto'],
@@ -171,17 +171,21 @@ def _convert_date(date):
     raise ValueError
 
 
-def _get_atividades_semana_atual(user_id):
+def _get_atividades_semana(user_id, semana):
     date = datetime.date.today()
     if date.day == date.weekday():
         start_week = date
     else:
         start_week = date - datetime.timedelta(date.weekday() + 1)
 
+    if semana == -1:
+        start_week = date.fromordinal(start_week.toordinal()-7)
+    elif semana == -2:
+        start_week = date.fromordinal(start_week.toordinal()-14)
+
     end_week = start_week + datetime.timedelta(6)
     user = Usuario.objects.get(user_id=user_id)
     return Atividade.objects.filter(data__range=[start_week, end_week], user=user.id)
-
 
 def _get_resume(activity_list):
     resume_dict = {}
