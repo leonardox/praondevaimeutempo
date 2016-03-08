@@ -125,8 +125,8 @@ class AdicionarAtividade(FormView):
         atividade.categoria = data['categoria']
         atividade.data = data['data']
         atividade.prioridade = data['prioridade']
-        # user = Usuario.objects.get(user_id=data['user'])
-        # atividade.user = user
+        user = Usuario.objects.get(user_id=data['user'])
+        atividade.user = user
         atividade.save()
 
         return super(AdicionarAtividade, self).form_valid(form)
@@ -180,8 +180,7 @@ def _get_atividades_semana_atual(user_id):
 
     end_week = start_week + datetime.timedelta(6)
     user = Usuario.objects.get(user_id=user_id)
-    # return Atividade.objects.filter(data__range=[start_week, end_week], user=user.id)
-    return Atividade.objects.filter(data__range=[start_week, end_week])
+    return Atividade.objects.filter(data__range=[start_week, end_week], user=user.id)
 
 
 def _get_resume(activity_list):
