@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from aplicacao.views import atividade_view
 from aplicacao.views.atividade_view import ListaAtividades, AdicionarAtividade, RelatorioSemanal, \
-    LoginView
+    LoginView, ComparaSemanas
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -15,4 +15,7 @@ urlpatterns = [
     url(r'^atividades/relatorio/semanal$', RelatorioSemanal.as_view(), name='relatorio-semanal'),
     url(r'^usuario/add$', atividade_view.adicionar_usuario, name='add-usuario'),
     url(r'^logout$', atividade_view.logout, name='logout'),
+    url(r'^compare$', ComparaSemanas.as_view(), name='compare'),
+
+
 ]

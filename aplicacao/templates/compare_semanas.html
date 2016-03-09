@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% load staticfiles %}
+
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                Dashboard
+                <small>Gerencie o seu tempo</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <a class="btn btn-danger" href="/">Voltar</a>
+            <div class="col-sm-6 col-lg-offset-3">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <h3 class="box-title text-danger text-center">Relatório semanal</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-default btn-sm"><i
+                                        class="fa fa-refresh"></i></button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body text-center">
+                            <div class="sparkline" data-type="pie" data-offset="90"
+                                 data-width="100px" data-height="100px">
+                                {% for item in resumo %}
+                                    {{ item.1 }},
+                                {% empty %}
+                                    1
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="row">
+                                {% with 'green red' as colors %}
+                                    {% for item in resumo %}
+                                        <div class="col-sm-4 legenda-{{ forloop.counter }}">
+                                            {{ item.0 }}  </br> {{ item.1 }} Horas investida(s)
+                                        </div>
+                                    {% empty %}
+                                        1
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
+
+                            </br>
+                            <div class="row">
+                                <label class="alert-danger" style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total de horas investidas na semana: {{ total_hotas }}</label>
+                                <label class="alert-danger" style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total de horas investidas na semana em prioritárias: {{ total_prioritarias }}</label>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+        </section>
+    </div>
+
+{% endblock %}
+
+

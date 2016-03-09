@@ -203,3 +203,25 @@ def _get_resume(activity_list):
 
     return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas, \
            total_prioritarias
+
+class ComparaSemanas(TemplateView):
+
+    """
+    Exibi pagina de comparação entre as semanas
+    """
+
+    template_name = 'compare_semanas.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            if not request.session['id']:
+                return redirect('login')
+        except:
+            return redirect('login')
+        resumo, total_horas, total_prioritarias = _get_resume(
+            _get_atividades_semana(request.session['id'], 0))
+        context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
+                                        total_prioritarias=total_prioritarias,
+                                        foto=request.session['foto'],
+                                        nome=request.session['nome'])
+        return self.render_to_response(context)
