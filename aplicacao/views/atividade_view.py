@@ -43,7 +43,7 @@ def adicionar_usuario(request):
     if usuario.foto:
         request.session['foto'] = str(usuario.foto)[18:]
     else:
-        request.session['foto'] = "dist/img/user9-128x128.png"
+        request.session['foto'] = "/static/dist/img/user9-128x128.png"
     return redirect('atividades')
 
 
