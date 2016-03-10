@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
-from django.shortcuts import render_to_response, redirect
+
+from django.shortcuts import redirect
 from django.views.generic import TemplateView, FormView
 from aplicacao.forms import FormAtividade
 from aplicacao.models import Atividade, Usuario
@@ -35,13 +36,14 @@ def adicionar_usuario(request):
     try:
         usuario = Usuario.objects.get(email=email)
     except:
-        usuario = Usuario(nome=nome, email=email, foto=foto, user_id=user_id)
-        usuario.save()
+        usuario = Usuario.create(nome=nome, email=email, foto_url=foto, user_id=user_id)
 
     request.session['id'] = usuario.user_id
     request.session['nome'] = usuario.nome
-    request.session['foto'] = usuario.foto
-
+    if usuario.foto:
+        request.session['foto'] = str(usuario.foto)[26:]
+    else:
+        request.session['foto'] = "dist/img/user9-128x128.png"
     return redirect('atividades')
 
 
