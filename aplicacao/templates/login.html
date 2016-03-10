@@ -41,25 +41,20 @@
 
 <body>
 <div class="middlePage">
-    <div class="page-header">
-        <h1 class="logo">Pra onde vai meu tempo?</h1>
+    <div class="login-logo">
+        <h1 style="color: #dedede">Pra onde vai meu tempo?</h1>
     </div>
 
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">Acesse sua conta:</h3>
-        </div>
+    <div class="panel panel-info" style="border: none;">
+        <div class="login-box-body" style="background-color: #001a35;">
+            <p class="login-box-msg" style="color: #dedede;">Acesse sua conta</p>
+            <div class="social-auth-links text-center">
+                <div class="row">
+                    <div class="g-signin2" style="display: inline-block;" data-onsuccess="onSignIn" data-theme="dark"></div>
+                </div>
+            </div><!-- /.social-auth-links -->
 
-    <!--    <div class="panel-body row1">
-            <p class="login-box-msg">Sign in to start your session</p>
-            <div class="g-signin2 " style="display: inline-block;" data-onsuccess="onSignIn"
-                 data-theme="dark"></div>
-        </div> -->
-        <div class="social-auth-links panel-body">
-            <p>Usando uma conta google:</p>
-            <div class="g-signin2" style="display: inline-block;" data-onsuccess="onSignIn" data-theme="light"
-                 style="display: inline-block;"></div>
-        </div>
+        </div><!-- /.login-box-body -->
     </div>
 </div>
 <div class="hidden">
@@ -82,10 +77,7 @@
         $('#id_email').val(profile.getEmail());
         $('#id_foto').val(profile.getImageUrl());
         $('#id_user_id').val(profile.getId());
-
-
         $('#adicionar').click();
-    }
-    ;
+    };
 </script>
 </html>
