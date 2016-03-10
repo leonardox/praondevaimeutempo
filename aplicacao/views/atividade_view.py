@@ -44,7 +44,8 @@ def adicionar_usuario(request):
     if usuario.foto:
         request.session['foto'] = foto
     else:
-        request.session['foto'] = "/static/Images/user9-128x128.png"
+        request.session[
+            'foto'] = 'http://praondevaimeutempo.herokuapp.com/static/dist/img/user9-128x128.png'
     return redirect('atividades')
 
 
@@ -182,13 +183,14 @@ def _get_atividades_semana(user_id, semana):
         start_week = date - datetime.timedelta(date.weekday() + 1)
 
     if semana == -1:
-        start_week = date.fromordinal(start_week.toordinal()-7)
+        start_week = date.fromordinal(start_week.toordinal() - 7)
     elif semana == -2:
-        start_week = date.fromordinal(start_week.toordinal()-14)
+        start_week = date.fromordinal(start_week.toordinal() - 14)
 
     end_week = start_week + datetime.timedelta(6)
     user = Usuario.objects.get(user_id=user_id)
     return Atividade.objects.filter(data__range=[start_week, end_week], user=user.id)
+
 
 def _get_resume(activity_list):
     resume_dict = {}
@@ -207,8 +209,8 @@ def _get_resume(activity_list):
     return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas, \
            total_prioritarias
 
-class ComparaSemanas(TemplateView):
 
+class ComparaSemanas(TemplateView):
     """
     Exibi pagina de comparação entre as semanas
     """
