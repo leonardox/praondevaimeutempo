@@ -21,7 +21,7 @@ def logout(request):
     this class limpa a sessão de um usuário
     """
     request.session['id'] = None
-    return redirect("login")
+    return redirect("https://mail.google.com/mail/u/0/?logout&hl=en")
 
 
 def adicionar_usuario(request):
