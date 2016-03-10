@@ -21,7 +21,7 @@ def logout(request):
     this class limpa a sessão de um usuário
     """
     request.session['id'] = None
-    return redirect("https://mail.google.com/mail/u/0/?logout&hl=en")
+    return redirect("login")
 
 
 def adicionar_usuario(request):
@@ -36,14 +36,15 @@ def adicionar_usuario(request):
     try:
         usuario = Usuario.objects.get(email=email)
     except:
-        usuario = Usuario.create(nome=nome, email=email, foto_url=foto, user_id=user_id)
+        usuario = Usuario(nome=nome, email=email, foto=foto, user_id=user_id)
+        usuario.save()
 
     request.session['id'] = usuario.user_id
     request.session['nome'] = usuario.nome
-    if usuario.foto:
-        request.session['foto'] = str(usuario.foto)[18:]
+    if not usuario.foto:
+        request.session['foto'] = foto
     else:
-        request.session['foto'] = "/static/dist/img/user9-128x128.png"
+        request.session['foto'] = "/static/Images/user9-128x128.png"
     return redirect('atividades')
 
 
@@ -56,7 +57,7 @@ class ListaAtividades(TemplateView):
 
     def get(self, request, *args, **kwargs):
         try:
-            if not request.session['id']:
+            if not request.session or not request.session['id']:
                 return redirect('login')
         except:
             return redirect('login')
