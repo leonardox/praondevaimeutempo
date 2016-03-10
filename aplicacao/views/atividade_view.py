@@ -41,7 +41,7 @@ def adicionar_usuario(request):
 
     request.session['id'] = usuario.user_id
     request.session['nome'] = usuario.nome
-    if not usuario.foto:
+    if usuario.foto:
         request.session['foto'] = foto
     else:
         request.session['foto'] = "/static/Images/user9-128x128.png"
