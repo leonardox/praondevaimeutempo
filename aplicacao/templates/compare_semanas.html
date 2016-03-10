@@ -18,18 +18,17 @@
 
         <!-- Main content -->
         <section class="content">
-            <a class="btn btn-danger" href="/">Voltar</a>
-            <div class="col-sm-6 col-lg-offset-3">
-                    <div class="box box-solid">
-                        <div class="box-header">
-                            <h3 class="box-title text-danger text-center">Relatório semanal</h3>
+            <div class="col-sm-4">
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title text-danger text-center">Semana atual</h3>
 
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-default btn-sm"><i
-                                        class="fa fa-refresh"></i></button>
-                            </div>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-default btn-sm"><i
+                                    class="fa fa-refresh"></i></button>
                         </div>
-                        <!-- /.box-header -->
+                    </div>
+                    {% if resumo %}
                         <div class="box-body text-center">
                             <div class="sparkline" data-type="pie" data-offset="90"
                                  data-width="100px" data-height="100px">
@@ -55,15 +54,141 @@
 
                             </br>
                             <div class="row">
-                                <label class="alert-danger" style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total de horas investidas na semana: {{ total_hotas }}</label>
-                                <label class="alert-danger" style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total de horas investidas na semana em prioritárias: {{ total_prioritarias }}</label>
+                                <label class="alert-danger"
+                                       style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total
+                                    de horas investidas na semana: {{ total_hotas }}</label>
+                                <label class="alert-danger"
+                                       style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total
+                                    de horas investidas na semana em
+                                    prioritárias: {{ total_prioritarias }}</label>
                             </div>
                         </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
+                    {% else %}
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-offset-3">
+                                <span>Sem dados para esta semana</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!-- /.box-header -->
+                    <!-- /.box-body -->
                 </div>
+                <!-- /.box -->
+            </div>
+            <div class="col-sm-4">
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title text-danger text-center">Uma semana antes</h3>
 
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-default btn-sm"><i
+                                    class="fa fa-refresh"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    {% if resumo2 %}
+                        <div class="box-body text-center">
+                            <div class="sparkline" data-type="pie" data-offset="90"
+                                 data-width="100px" data-height="100px">
+                                {% for item in resumo2 %}
+                                    {{ item.1 }},
+                                {% empty %}
+                                    1
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="row">
+                                {% with 'green red' as colors %}
+                                    {% for item in resumo2 %}
+                                        <div class="col-sm-4 legenda-{{ forloop.counter }}">
+                                            {{ item.0 }}  </br> {{ item.1 }} Horas investida(s)
+                                        </div>
+                                    {% empty %}
+                                        1
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
+
+                            </br>
+                            <div class="row">
+                                <label class="alert-danger"
+                                       style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total
+                                    de horas investidas na semana: {{ total_hotas2 }}</label>
+                                <label class="alert-danger"
+                                       style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total
+                                    de horas investidas na semana em
+                                    prioritárias: {{ total_prioritarias2 }}</label>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-offset-3">
+                                <span>Sem dados para esta semana</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="col-sm-4">
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title text-danger text-center">Duas semanas antes</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-default btn-sm"><i
+                                    class="fa fa-refresh"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    {% if resumo3 %}
+                        <div class="box-body text-center">
+                            <div class="sparkline" data-type="pie" data-offset="90"
+                                 data-width="100px" data-height="100px">
+                                {% for item in resumo3 %}
+                                    {{ item.1 }},
+                                {% empty %}
+                                    1
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="row">
+                                {% with 'green red' as colors %}
+                                    {% for item in resumo3 %}
+                                        <div class="col-sm-4 legenda-{{ forloop.counter }}">
+                                            {{ item.0 }}  </br> {{ item.1 }} Horas investida(s)
+                                        </div>
+                                    {% empty %}
+
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
+
+                            </br>
+                            <div class="row">
+                                <label class="alert-danger"
+                                       style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total
+                                    de horas investidas na semana: {{ total_hotas3 }}</label>
+                                <label class="alert-danger"
+                                       style="margin-left: 5px; padding-right: 5px; padding-left: 5px;">Total
+                                    de horas investidas na semana em
+                                    prioritárias: {{ total_prioritarias3 }}</label>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-offset-3">
+                                <span>Sem dados para esta semana</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
 
         </section>
     </div>

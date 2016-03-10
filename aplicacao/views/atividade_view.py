@@ -220,10 +220,22 @@ class ComparaSemanas(TemplateView):
                 return redirect('login')
         except:
             return redirect('login')
-        resumo, total_horas, total_prioritarias = _get_resume(
+        resumo1, total_horas1, total_prioritarias1 = _get_resume(
             _get_atividades_semana(request.session['id'], 0))
-        context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
-                                        total_prioritarias=total_prioritarias,
+        resumo2, total_horas2, total_prioritarias2 = _get_resume(
+            _get_atividades_semana(request.session['id'], -1))
+        resumo3, total_horas3, total_prioritarias3 = _get_resume(
+            _get_atividades_semana(request.session['id'], -2))
+        print resumo2
+        context = self.get_context_data(resumo=resumo1,
+                                        total_hotas=total_horas1,
+                                        total_prioritarias=total_prioritarias1,
+                                        resumo2=resumo2,
+                                        total_hotas2=total_horas2,
+                                        total_prioritarias2=total_prioritarias2,
+                                        resumo3=resumo3,
+                                        total_hotas3=total_horas3,
+                                        total_prioritarias3=total_prioritarias3,
                                         foto=request.session['foto'],
                                         nome=request.session['nome'])
         return self.render_to_response(context)
