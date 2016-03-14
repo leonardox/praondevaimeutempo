@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
-import urllib
+import base64
 
 import django
-from django.core.files import File
 from django.db import models
 
 
@@ -27,3 +25,11 @@ class Atividade(models.Model):
     data = models.DateField(default=django.utils.timezone.now)
     prioridade = models.BooleanField(default=False)
     user = models.ForeignKey(Usuario)
+    _foto = models.TextField(blank=True)
+
+    def set_foto(self, foto):
+        self._foto = base64.encodestring(foto)
+
+    def get_foto(self):
+        return base64.decodestring(self._foto)
+    foto = property(get_foto, set_foto)
