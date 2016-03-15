@@ -50,7 +50,11 @@
                                 {% for atividade in lista_atividades %}
                                     <tr>
                                         <td align="center">{{ atividade.data|date:'d/m/Y' }}</td>
-                                        <td align="center">{{ atividade.nome }}</td>
+                                        {% if atividade.foto %}
+                                            <td align="center">{{ atividade.nome }}  <img alt="Embedded Image" style="width:70px; height: 70px" src="data:image/png;base64,{{ atividade.foto }}" /></td>
+                                        {% else %}
+                                            <td align="center">{{ atividade.nome }}</td>
+                                        {% endif %}
                                         <td align="center">{{ atividade.tempo_investido }}</td>
                                         <td align="center">{{ atividade.categoria }}</td>
                                         <td align="center">

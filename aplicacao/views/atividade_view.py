@@ -6,6 +6,7 @@ from django.views.generic import TemplateView, FormView
 from aplicacao.forms import FormAtividade
 from aplicacao.models import Atividade, Usuario
 import operator
+import base64
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -106,7 +107,11 @@ class AdicionarAtividade(FormView):
         Realiza tratamento da data antes da validação do formulário.
         """
         data = request.POST
-
+        st = ""
+        if(len(request.FILES.keys()) > 0):
+            request.FILES[request.FILES.keys()[0]].seek(0)
+            st1 = request.FILES[request.FILES.keys()[0]].read()
+            st = base64.encodestring(st1)
         my_dict = {}
         for key in data:
             my_dict[key] = data[key]
@@ -114,11 +119,11 @@ class AdicionarAtividade(FormView):
         form = FormAtividade(my_dict)
 
         if form.is_valid():
-            return self.form_valid(form)
+            return self.form_valid(form, st)
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, form, fotoBase64):
         """
         Este método adiciona uma nova atividade no banco de dados.
         """
@@ -127,6 +132,8 @@ class AdicionarAtividade(FormView):
         atividade.nome = data['nome']
         atividade.tempo_investido = data['tempo_investido']
         atividade.categoria = data['categoria']
+        if fotoBase64 != "":
+            atividade.foto = fotoBase64
         atividade.data = data['data']
         atividade.prioridade = data['prioridade']
         user = Usuario.objects.get(user_id=data['user'])

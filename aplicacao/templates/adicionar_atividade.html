@@ -26,7 +26,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="" method="POST">
+                        <form action="" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="box-body">
                                 <div class="form-group">
@@ -50,6 +50,7 @@
                                     <label for="id_prioridade">Prioritária: &nbsp</label>
                                     {{ form.prioridade }}
                                 </div>
+                                {{ form.foto }}
                                 <div class="hidden">
                                     {{ form.user }}
                                 </div>
@@ -75,9 +76,9 @@
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script>
-    $(document).ready(function (){
-        $('#id_user').val('{{ user_id }}');
-    });
+        $(document).ready(function () {
+            $('#id_user').val('{{ user_id }}');
+        });
     </script>
 {% endblock %}
 

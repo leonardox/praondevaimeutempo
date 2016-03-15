@@ -25,11 +25,4 @@ class Atividade(models.Model):
     data = models.DateField(default=django.utils.timezone.now)
     prioridade = models.BooleanField(default=False)
     user = models.ForeignKey(Usuario)
-    _foto = models.TextField(blank=True)
-
-    def set_foto(self, foto):
-        self._foto = base64.encodestring(foto)
-
-    def get_foto(self):
-        return base64.decodestring(self._foto)
-    foto = property(get_foto, set_foto)
+    foto = models.TextField(blank=True, null=True)
