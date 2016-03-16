@@ -26,3 +26,12 @@ class Atividade(models.Model):
     prioridade = models.BooleanField(default=False)
     user = models.ForeignKey(Usuario)
     foto = models.TextField(blank=True, null=True)
+
+
+class Tag(models.Model):
+    nome_tag = models.CharField(max_length=14, blank=True)
+
+
+class ATIVIDADE_TAG(models.Model):
+    Atvidade_id = models.ForeignKey(Atividade)
+    tag_id = models.ForeignKey(Tag)
