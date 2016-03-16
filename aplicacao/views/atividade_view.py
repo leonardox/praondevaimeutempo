@@ -131,7 +131,6 @@ class AdicionarAtividade(FormView):
         atividade = Atividade()
         atividade.nome = data['nome']
         atividade.tempo_investido = data['tempo_investido']
-        atividade.categoria = data['categoria']
         if fotoBase64 != "":
             atividade.foto = fotoBase64
         atividade.data = data['data']
@@ -249,3 +248,13 @@ class ComparaSemanas(TemplateView):
                                         foto=request.session['foto'],
                                         nome=request.session['nome'])
         return self.render_to_response(context)
+
+
+def salvar_categoria(request, **kwargs):
+    """
+    Este metodo recebe uma atividade e salva a categoria.
+    """
+    atividade = Atividade.objects.get(id=kwargs['atividade_id'])
+    atividade.categoria = kwargs['categoria']
+    atividade.save()
+    return redirect('atividades')

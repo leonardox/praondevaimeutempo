@@ -48,23 +48,37 @@
                                     <th class="text-center">Prioritária</th>
                                 </tr>
                                 {% for atividade in lista_atividades %}
-                                    <tr>
-                                        <td align="center">{{ atividade.data|date:'d/m/Y' }}</td>
-                                        {% if atividade.foto %}
-                                            <td align="center">{{ atividade.nome }}  <img alt="Embedded Image" style="width:70px; height: 70px" src="data:image/png;base64,{{ atividade.foto }}" /></td>
-                                        {% else %}
-                                            <td align="center">{{ atividade.nome }}</td>
-                                        {% endif %}
-                                        <td align="center">{{ atividade.tempo_investido }}</td>
-                                        <td align="center">{{ atividade.categoria }}</td>
-                                        <td align="center">
-                                            {% if atividade.prioridade %}
-                                                Sim
+                                    {% if atividade.categoria == 'LAZER' %}
+                                        <tr style="background-color: #CCFFCC;">
                                             {% else %}
-                                                Não
+                                            {% if atividade.categoria == 'TRABALHO' %}
+                                                <tr style="background-color: #CCCCFF;">
+                                                    {% else %}
+                                                <tr>
                                             {% endif %}
-                                        </td>
-                                    </tr>
+                                    {% endif %}
+                                <td align="center">{{ atividade.data|date:'d/m/Y' }}</td>
+                                {% if atividade.foto %}
+                                    <td align="center">{{ atividade.nome }} <img
+                                            alt="Embedded Image" style="width:70px; height: 70px"
+                                            src="data:image/png;base64,{{ atividade.foto }}"/></td>
+                                {% else %}
+                                    <td align="center">{{ atividade.nome }}</td>
+                                {% endif %}
+                                <td align="center">{{ atividade.tempo_investido }}</td>
+                                <td align="center"><a class="btn btn-success"
+                                                      href="/categoria/{{ atividade.id }}-LAZER">Lazer</a>
+                                    <a class="btn btn-primary"
+                                       href="/categoria/{{ atividade.id }}-TRABALHO">Trabalho</a>
+                                </td>
+                                <td align="center">
+                                    {% if atividade.prioridade %}
+                                        Sim
+                                    {% else %}
+                                        Não
+                                    {% endif %}
+                                </td>
+                                </tr>
                                 {% empty %}
                                     <td colspan="5" align="center">Ainda sem atividades nesta
                                         semana

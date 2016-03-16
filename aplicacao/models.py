@@ -21,7 +21,7 @@ class Atividade(models.Model):
     """
     nome = models.CharField(max_length=50)
     tempo_investido = models.IntegerField()
-    categoria = models.CharField(max_length=14)
+    categoria = models.CharField(max_length=14, blank=True)
     data = models.DateField(default=django.utils.timezone.now)
     prioridade = models.BooleanField(default=False)
     user = models.ForeignKey(Usuario)
