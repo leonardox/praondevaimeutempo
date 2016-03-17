@@ -188,10 +188,8 @@ def _get_atividades_semana(user_id, semana):
     else:
         start_week = date - datetime.timedelta(date.weekday() + 1)
 
-    if semana == -1:
-        start_week = date.fromordinal(start_week.toordinal() - 7)
-    elif semana == -2:
-        start_week = date.fromordinal(start_week.toordinal() - 14)
+    #semana atual = 0, semana passada = 1 e semana retrasada = 2
+    start_week = date.fromordinal(start_week.toordinal() - (semana*7))
 
     end_week = start_week + datetime.timedelta(6)
     user = Usuario.objects.get(user_id=user_id)
@@ -232,9 +230,9 @@ class ComparaSemanas(TemplateView):
         resumo1, total_horas1, total_prioritarias1 = _get_resume(
             _get_atividades_semana(request.session['id'], 0))
         resumo2, total_horas2, total_prioritarias2 = _get_resume(
-            _get_atividades_semana(request.session['id'], -1))
+            _get_atividades_semana(request.session['id'], 1))
         resumo3, total_horas3, total_prioritarias3 = _get_resume(
-            _get_atividades_semana(request.session['id'], -2))
+            _get_atividades_semana(request.session['id'], 2))
         print resumo2
         context = self.get_context_data(resumo=resumo1,
                                         total_hotas=total_horas1,
