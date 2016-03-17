@@ -19,10 +19,14 @@ class Atividade(models.Model):
     """
     Esta classe representa uma atividade
     """
-    nome = models.CharField(max_length=50)
+    nome = models.CharField(max_length=50, null=False, default=None)
     tempo_investido = models.IntegerField()
     categoria = models.CharField(max_length=14, blank=True)
     data = models.DateField(default=django.utils.timezone.now)
     prioridade = models.BooleanField(default=False)
     user = models.ForeignKey(Usuario)
     foto = models.TextField(blank=True, null=True)
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.nome == '':
+            raise ValidationError('Empty error message')
