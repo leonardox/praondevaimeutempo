@@ -195,6 +195,15 @@ def _get_atividades_semana(user_id, semana):
     user = Usuario.objects.get(user_id=user_id)
     return Atividade.objects.filter(data__range=[start_week, end_week], user=user.id)
 
+def _get_atividades_por_categoria(user_id, categoria):
+    atividades = _get_atividades_por_categoria(user_id, 0)
+
+    lista_por_categoria = []
+    for atividade in atividades:
+        if atividade.categoria == categoria:
+            lista_por_categoria.append(atividade)
+
+    return lista_por_categoria
 
 def _get_resume(activity_list):
     resume_dict = {}
