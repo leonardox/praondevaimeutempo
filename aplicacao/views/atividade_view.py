@@ -4,7 +4,7 @@ import datetime
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, FormView
 from aplicacao.forms import FormAtividade
-from aplicacao.models import Atividade, Usuario
+from aplicacao.models import Atividade, Usuario, Tag, ATIVIDADE_TAG
 import operator
 import base64
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -108,7 +108,7 @@ class AdicionarAtividade(FormView):
         """
         data = request.POST
         st = ""
-        if(len(request.FILES.keys()) > 0):
+        if (len(request.FILES.keys()) > 0):
             request.FILES[request.FILES.keys()[0]].seek(0)
             st1 = request.FILES[request.FILES.keys()[0]].read()
             st = base64.encodestring(st1)
@@ -137,7 +137,18 @@ class AdicionarAtividade(FormView):
         atividade.prioridade = data['prioridade']
         user = Usuario.objects.get(user_id=data['user'])
         atividade.user = user
+
+        tag = Tag()
+        tag.nome_tag = data['nome_tag']
+        atividade_tag = ATIVIDADE_TAG()
         atividade.save()
+
+        atividade_tag.Atvidade_id = atividade
+        tag.save()
+
+        atividade_tag.tag_id = tag
+
+        atividade_tag.save()
 
         return super(AdicionarAtividade, self).form_valid(form)
 
@@ -235,7 +246,7 @@ class ComparaSemanas(TemplateView):
             _get_atividades_semana(request.session['id'], -1))
         resumo3, total_horas3, total_prioritarias3 = _get_resume(
             _get_atividades_semana(request.session['id'], -2))
-        print resumo2
+        # print resumo2
         context = self.get_context_data(resumo=resumo1,
                                         total_hotas=total_horas1,
                                         total_prioritarias=total_prioritarias1,
