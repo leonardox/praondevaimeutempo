@@ -74,7 +74,7 @@
       var colors = [];
       for(var i = 0; i < categs.length; i++){
         var categ = categs[i];
-        if(categ != ""){
+        if(categ != "" && typeof categoryMap[categ] !== 'undefined'){
           colors.push(categoryMap[categ]);
         }
       }
@@ -86,7 +86,10 @@
       var categ = $this.data('categ').replace( /\s/g, "").split(",");
       var colors = getColorsFromCategories(categ);
       var opts = $this.data();
-      opts["sliceColors"] = colors;
+      if(colors.length > 0){
+        opts["sliceColors"] = colors;
+      }
+
       $this.sparkline('html', opts);
     });
 

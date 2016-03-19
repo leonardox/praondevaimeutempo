@@ -156,8 +156,21 @@ class RelatorioSemanal(TemplateView):
             return redirect('login')
         resumo, total_horas, total_prioritarias = _get_resume(
             _get_atividades_semana(request.session['id'], 0))
-        context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
+        categs = ["NENHUMA", "TRABALHO", "LAZER"]
+        if "categ" in request.GET and request.GET.get("categ") != "NENHUMA":
+            atividades_semanas = _get_atividades_por_categoria(request.session['id'], request.GET.get("categ"))
+            resumo_categ = _get_resume_categ(atividades_semanas)
+            categs.insert(0, categs.pop(categs.index(request.GET.get("categ"))))
+            context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
+                                total_prioritarias=total_prioritarias,
+                                resumo_categ = resumo_categ,
+                                categs = categs,
+                                foto=request.session['foto'],
+                                nome=request.session['nome'])
+        else:
+            context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
                                         total_prioritarias=total_prioritarias,
+                                        categs = categs,
                                         foto=request.session['foto'],
                                         nome=request.session['nome'])
         return self.render_to_response(context)
@@ -196,7 +209,7 @@ def _get_atividades_semana(user_id, semana):
     return Atividade.objects.filter(data__range=[start_week, end_week], user=user.id)
 
 def _get_atividades_por_categoria(user_id, categoria):
-    atividades = _get_atividades_por_categoria(user_id, 0)
+    atividades = _get_atividades_semana(user_id, 0)
 
     lista_por_categoria = []
     for atividade in atividades:
@@ -222,6 +235,12 @@ def _get_resume(activity_list):
     return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas, \
            total_prioritarias
 
+def _get_resume_categ(activity_list):
+    resume_dict = {}
+    for activity in activity_list:
+        resume_dict[activity.nome] = activity.tempo_investido
+
+    return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True)
 
 class ComparaSemanas(TemplateView):
     """
