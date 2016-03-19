@@ -59,9 +59,10 @@
       }
     });
     /* END JQUERY KNOB */
-    var colors = ['#000099', '#00FF99', '#990099', '#CC0099', 'FF0099', 'FFFF66'];
-    for(var i = 0; i < colors.length; i++){
-        var color = colors[i];
+    var colors2 = ["#008d4c", '#367fa9', '#990099', '#CC0099', 'FF0099', 'FFFF66', '336666', 'cc6633', '6666ff', 'ff0099', '9900ff',
+    '33cc66', '33ffcc'];
+    for(var i = 0; i < colors2.length; i++){
+        var color = colors2[i];
         $(".legenda-" + (i+1)).css({
             'color': color
         });
@@ -76,6 +77,9 @@
         var categ = categs[i];
         if(categ != "" && typeof categoryMap[categ] !== 'undefined'){
           colors.push(categoryMap[categ]);
+          $(".legenda-categ-" + categ).css({
+            'color': categoryMap[categ]
+          });
         }
       }
       return colors;
@@ -88,6 +92,8 @@
       var opts = $this.data();
       if(colors.length > 0){
         opts["sliceColors"] = colors;
+      }else{
+        opts["sliceColors"] = colors2;
       }
 
       $this.sparkline('html', opts);

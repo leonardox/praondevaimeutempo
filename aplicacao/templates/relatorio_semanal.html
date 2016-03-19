@@ -29,11 +29,6 @@
                         </div>
                     </div>
                     <!-- /.box-header -->
-                    {% if resumo3 %}
-                        pass
-                    {% else %}
-                        pass2
-                    {% endif %}
                     <div class="box-body text-center">
                         <div class="sparkline" data-type="pie" data-offset="90"
                              data-width="100px" data-height="100px"
@@ -53,15 +48,13 @@
                     </div>
                     <div class="box-footer">
                         <div class="row">
-                            {% with 'green red' as colors %}
-                                {% for item in resumo %}
-                                    <div class="col-sm-4 legenda-{{ forloop.counter }}">
-                                        {{ item.0 }}  </br> {{ item.1 }} Horas investida(s)
-                                    </div>
-                                {% empty %}
-                                    1
-                                {% endfor %}
-                            {% endwith %}
+                            {% for item in resumo %}
+                                <div class="col-sm-4 legenda-{{ forloop.counter }} legenda-categ-{{ item.0 }}">
+                                    {{ item.0 }}  </br> {{ item.1 }} Horas investida(s)
+                                </div>
+                            {% empty %}
+                                1
+                            {% endfor %}
                         </div>
 
                         </br>
