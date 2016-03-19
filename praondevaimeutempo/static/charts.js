@@ -66,13 +66,28 @@
             'color': color
         });
     }
+    var categoryMap = {
+      "LAZER": "#008d4c",
+      "TRABALHO": "#367fa9"
+    }
+    var getColorsFromCategories = function(categs){
+      var colors = [];
+      for(var i = 0; i < categs.length; i++){
+        var categ = categs[i];
+        if(categ != ""){
+          colors.push(categoryMap[categ]);
+        }
+      }
+      return colors;
+    };
     //INITIALIZE SPARKLINE CHARTS
     $(".sparkline").each(function () {
       var $this = $(this);
-      var opts = $.extend($this.data(), {
-            sliceColors : colors
-      });
-      $this.sparkline('html', $this.data());
+      var categ = $this.data('categ').replace( /\s/g, "").split(",");
+      var colors = getColorsFromCategories(categ);
+      var opts = $this.data();
+      opts["sliceColors"] = colors;
+      $this.sparkline('html', opts);
     });
 
     /* SPARKLINE DOCUMENTATION EXAMPLES http://omnipotent.net/jquery.sparkline/#s-about */

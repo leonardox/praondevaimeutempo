@@ -31,7 +31,14 @@
                     {% if resumo %}
                         <div class="box-body text-center">
                             <div class="sparkline" data-type="pie" data-offset="90"
-                                 data-width="100px" data-height="100px">
+                                 data-width="100px" data-height="100px"
+                                 data-categ="
+                                    {% for item in resumo %}
+                                        {{ item.0 }},
+                                    {% empty %}
+
+                                    {% endfor %}
+                                 ">
                                 {% for item in resumo %}
                                     {{ item.1 }},
                                 {% empty %}
@@ -87,7 +94,14 @@
                     {% if resumo2 %}
                         <div class="box-body text-center">
                             <div class="sparkline" data-type="pie" data-offset="90"
-                                 data-width="100px" data-height="100px">
+                                 data-width="100px" data-height="100px"
+                                 data-categ="
+                                    {% for item in resumo %}
+                                        {{ item.0 }},
+                                    {% empty %}
+
+                                    {% endfor %}
+                                 ">
                                 {% for item in resumo2 %}
                                     {{ item.1 }},
                                 {% empty %}
@@ -142,7 +156,14 @@
                     {% if resumo3 %}
                         <div class="box-body text-center">
                             <div class="sparkline" data-type="pie" data-offset="90"
-                                 data-width="100px" data-height="100px">
+                                 data-width="100px" data-height="100px"
+                                 data-categ="
+                                    {% for item in resumo %}
+                                        {{ item.0 }},
+                                    {% empty %}
+
+                                    {% endfor %}
+                                     ">
                                 {% for item in resumo3 %}
                                     {{ item.1 }},
                                 {% empty %}
