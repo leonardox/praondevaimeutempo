@@ -38,3 +38,7 @@ class TesteAdicionarAtividade(TestCase):
             self.fail("Atividade foi salva")
         except IntegrityError:
             pass
+
+#class TesteVisualizarRelatorioCategoria(TestCase):
+
+    #def teste_visualizar

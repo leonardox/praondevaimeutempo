@@ -115,7 +115,7 @@ class AdicionarAtividade(FormView):
         my_dict = {}
         for key in data:
             my_dict[key] = data[key]
-        my_dict["data"] = _convert_date(my_dict["data"])
+
         form = FormAtividade(my_dict)
 
         if form.is_valid():
@@ -133,7 +133,7 @@ class AdicionarAtividade(FormView):
         atividade.tempo_investido = data['tempo_investido']
         if fotoBase64 != "":
             atividade.foto = fotoBase64
-        atividade.data = data['data']
+
         atividade.prioridade = data['prioridade']
         user = Usuario.objects.get(user_id=data['user'])
         atividade.user = user
