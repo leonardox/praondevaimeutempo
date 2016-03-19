@@ -26,7 +26,13 @@ class Atividade(models.Model):
     prioridade = models.BooleanField(default=False)
     user = models.ForeignKey(Usuario)
     foto = models.TextField(blank=True, null=True)
-    def clean(self):
-        from django.core.exceptions import ValidationError
-        if self.nome == '':
-            raise ValidationError('Empty error message')
+
+
+class Tag(models.Model):
+    """
+    Esta classe representa uma tag cadastrada pelo usuário
+    """
+    nome = models.CharField(max_length=140)
+    atividade = models.ForeignKey(Atividade)
+    usuario = models.ForeignKey(Usuario)
+

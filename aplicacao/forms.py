@@ -13,4 +13,5 @@ class FormAtividade(forms.Form):
         help_text='max. 42 megabytes',
         required=False)
     prioridade = forms.BooleanField(required=False)
+    tags = forms.CharField(max_length=140, widget=forms.TextInput(attrs={'class': 'form-control'}))
     user = forms.CharField(max_length=100, required=False)

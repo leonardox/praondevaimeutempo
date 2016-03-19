@@ -4,7 +4,7 @@ import datetime
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, FormView
 from aplicacao.forms import FormAtividade
-from aplicacao.models import Atividade, Usuario
+from aplicacao.models import Atividade, Usuario, Tag
 import operator
 import base64
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -108,7 +108,7 @@ class AdicionarAtividade(FormView):
         """
         data = request.POST
         st = ""
-        if(len(request.FILES.keys()) > 0):
+        if (len(request.FILES.keys()) > 0):
             request.FILES[request.FILES.keys()[0]].seek(0)
             st1 = request.FILES[request.FILES.keys()[0]].read()
             st = base64.encodestring(st1)
@@ -133,11 +133,11 @@ class AdicionarAtividade(FormView):
         atividade.tempo_investido = data['tempo_investido']
         if fotoBase64 != "":
             atividade.foto = fotoBase64
-
         atividade.prioridade = data['prioridade']
         user = Usuario.objects.get(user_id=data['user'])
         atividade.user = user
         atividade.save()
+        _salvar_tags(data['tags'], user, atividade)
 
         return super(AdicionarAtividade, self).form_valid(form)
 
@@ -154,25 +154,33 @@ class RelatorioSemanal(TemplateView):
                 return redirect('login')
         except:
             return redirect('login')
-        resumo, total_horas, total_prioritarias = _get_resume(
-            _get_atividades_semana(request.session['id'], 0))
+        resumo_categ = None
         categs = ["NENHUMA", "TRABALHO", "LAZER"]
         if "categ" in request.GET and request.GET.get("categ") != "NENHUMA":
-            atividades_semanas = _get_atividades_por_categoria(request.session['id'], request.GET.get("categ"))
+            atividades_semanas = _get_atividades_por_categoria(request.session['id'],
+                                                               request.GET.get("categ"))
             resumo_categ = _get_resume_categ(atividades_semanas)
             categs.insert(0, categs.pop(categs.index(request.GET.get("categ"))))
-            context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
-                                total_prioritarias=total_prioritarias,
-                                resumo_categ = resumo_categ,
-                                categs = categs,
-                                foto=request.session['foto'],
-                                nome=request.session['nome'])
+
+        if 'tag' in request.GET and request.GET['tag'] != 'Nenhuma':
+            resumo, total_horas, total_prioritarias = _get_resume(
+                recupera_atividade_tag(request.session['id'], request.GET['tag']))
+            selecionado = request.GET['tag']
         else:
-            context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
+            selecionado = ''
+            resumo, total_horas, total_prioritarias = _get_resume(
+                _get_atividades_semana(request.session['id'], 0))
+        tags = recupera_tags_usuario(request.session['id'])
+
+        context = self.get_context_data(resumo=resumo, total_hotas=total_horas,
                                         total_prioritarias=total_prioritarias,
-                                        categs = categs,
+                                        categs=categs,
                                         foto=request.session['foto'],
-                                        nome=request.session['nome'])
+                                        nome=request.session['nome'],
+                                        tags=tags,
+                                        selecionado=selecionado)
+        if resumo_categ:
+            context['resumo_categ'] = resumo_categ
         return self.render_to_response(context)
 
 
@@ -201,12 +209,13 @@ def _get_atividades_semana(user_id, semana):
     else:
         start_week = date - datetime.timedelta(date.weekday() + 1)
 
-    #semana atual = 0, semana passada = 1 e semana retrasada = 2
-    start_week = date.fromordinal(start_week.toordinal() - (semana*7))
+    # semana atual = 0, semana passada = 1 e semana retrasada = 2
+    start_week = date.fromordinal(start_week.toordinal() - (semana * 7))
 
     end_week = start_week + datetime.timedelta(6)
     user = Usuario.objects.get(user_id=user_id)
     return Atividade.objects.filter(data__range=[start_week, end_week], user=user.id)
+
 
 def _get_atividades_por_categoria(user_id, categoria):
     atividades = _get_atividades_semana(user_id, 0)
@@ -217,6 +226,7 @@ def _get_atividades_por_categoria(user_id, categoria):
             lista_por_categoria.append(atividade)
 
     return lista_por_categoria
+
 
 def _get_resume(activity_list):
     resume_dict = {}
@@ -235,12 +245,14 @@ def _get_resume(activity_list):
     return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True), total_horas, \
            total_prioritarias
 
+
 def _get_resume_categ(activity_list):
     resume_dict = {}
     for activity in activity_list:
         resume_dict[activity.nome] = activity.tempo_investido
 
     return sorted(resume_dict.items(), key=operator.itemgetter(1), reverse=True)
+
 
 class ComparaSemanas(TemplateView):
     """
@@ -284,3 +296,34 @@ def salvar_categoria(request, **kwargs):
     atividade.categoria = kwargs['categoria']
     atividade.save()
     return redirect('atividades')
+
+
+def _salvar_tags(tags, user, atividade):
+    lista = tags.split(' ')
+
+    for tag in lista:
+        tag_db = Tag(nome=tag, atividade=atividade, usuario=user)
+        tag_db.save()
+
+
+def recupera_tags_usuario(user_id):
+    user = Usuario.objects.get(user_id=user_id)
+    print user_id
+    lista_tags = Tag.objects.filter(usuario=user.id)
+    lista_nomes = []
+    for tag in lista_tags:
+        lista_nomes.append(tag.nome)
+    lista_nomes = list(set(lista_nomes))
+    return lista_nomes
+
+
+def recupera_atividade_tag(user_id, nome_tag):
+    tags = Tag.objects.filter(nome=nome_tag)
+    atividades = []
+    semana_atual = _get_atividades_semana(user_id, 0)
+    for tag in tags:
+        for atividade in semana_atual:
+            if tag.atividade.id == atividade.id:
+                atividades.append(atividade)
+                break
+    return atividades

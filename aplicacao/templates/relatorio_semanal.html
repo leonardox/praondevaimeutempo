@@ -11,11 +11,30 @@
                 <small>Gerencie o seu tempo</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Nível</a></li>
-                <li class="active">Aqui</li>
+                {#                <li><a href="#"><i class="fa fa-dashboard"></i> Nível</a></li>#}
+                {#                <li class="active">Aqui</li>#}
             </ol>
         </section>
-
+        <div class="row">
+            <div class=" col-md-2 col-md-offset-3">
+                <label>Filtrar por hashtag: </label>
+            </div>
+            <div class=" col-md-1 ">
+                <form method="get" action="">
+                    <select id='id_tag' name="tag" onchange="filtrar()">
+                        <option>Nenhuma</option>
+                        {% for tag in tags %}
+                            {% if tag == selecionado %}
+                                <option selected>{{ tag }}</option>
+                            {% else %}
+                                <option>{{ tag }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button type="submit" id="id_filtrar" class="hidden"></button>
+                </form>
+            </div>
+        </div>
         <!-- Main content -->
         <section class="content">
             <div class="col-sm-6">
@@ -42,19 +61,21 @@
                             {% for item in resumo %}
                                 {{ item.1 }},
                             {% empty %}
-                                1
+                                Sem atividades
                             {% endfor %}
                         </div>
                     </div>
                     <div class="box-footer">
                         <div class="row">
-                            {% for item in resumo %}
-                                <div class="col-sm-4 legenda-{{ forloop.counter }} legenda-categ-{{ item.0 }}">
-                                    {{ item.0 }}  </br> {{ item.1 }} Horas investida(s)
-                                </div>
-                            {% empty %}
-                                1
-                            {% endfor %}
+                            {% with 'green red' as colors %}
+                                {% for item in resumo %}
+                                    <div class="col-sm-4 legenda-{{ forloop.counter }}">
+                                        {{ item.0 }}  </br> {{ item.1 }} Horas investida(s)
+                                    </div>
+                                {% empty %}
+                                    Sem atividades
+                                {% endfor %}
+                            {% endwith %}
                         </div>
 
                         </br>
@@ -142,7 +163,11 @@
             </div>
         </section>
     </div>
-
+    <script>
+        function filtrar() {
+            $('#id_filtrar').click();
+        }
+    </script>
 {% endblock %}
 
 
