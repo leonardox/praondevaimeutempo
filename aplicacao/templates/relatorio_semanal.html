@@ -15,32 +15,34 @@
                 {#                <li class="active">Aqui</li>#}
             </ol>
         </section>
-        <div class="row">
-            <div class=" col-md-2 col-md-offset-3">
-                <label>Filtrar por hashtag: </label>
-            </div>
-            <div class=" col-md-1 ">
-                <form method="get" action="">
-                    <select id='id_tag' name="tag" onchange="filtrar()">
-                        <option>Nenhuma</option>
-                        {% for tag in tags %}
-                            {% if tag == selecionado %}
-                                <option selected>{{ tag }}</option>
-                            {% else %}
-                                <option>{{ tag }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                    <button type="submit" id="id_filtrar" class="hidden"></button>
-                </form>
-            </div>
-        </div>
+
         <!-- Main content -->
         <section class="content">
             <div class="col-sm-6">
                 <div class="box box-solid">
                     <div class="box-header">
                         <h3 class="box-title text-danger text-center">Relatório semanal</h3>
+
+                            <div class="box-tools" style="width:250px">
+                                <div class="row">
+                                <div class="col-sm-6" style="float:right; margin-right: 40px;">
+                                    <form method="get" action="">
+                                        <select id='id_tag' name="tag" class="form-control" onchange="filtrar()">
+                                            <option>Nenhuma</option>
+                                            {% for tag in tags %}
+                                                {% if tag == selecionado %}
+                                                    <option selected>{{ tag }}</option>
+                                                {% else %}
+                                                    <option>{{ tag }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <button type="submit" id="id_filtrar" class="hidden"></button>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-default btn-sm"><i
@@ -110,7 +112,7 @@
                                             <option value="LAZER">LAZER</option>
                                         {% endfor %}
                                     </select>
-                                </div>
+                                </div> class="hidden"
                                 <div class="col-sm-4">
                                     <form action="" id="carform">
                                         <input type="submit" value="Selecionar"
