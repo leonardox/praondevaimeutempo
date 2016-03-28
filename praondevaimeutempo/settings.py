@@ -25,7 +25,7 @@ APP_DIR = os.path.join(BASE_DIR, 'aplicacao')
 SECRET_KEY = "k2(lckbxw^v_%2#n#k*c(p2!bhk@3ol(e^vzj7%(+y#((64-$p"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
@@ -120,7 +120,7 @@ ALLOWED_HOSTS = ['*']
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [

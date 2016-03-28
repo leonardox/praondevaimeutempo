@@ -137,10 +137,12 @@ class AdicionarAtividade(FormView):
         user = Usuario.objects.get(user_id=data['user'])
         atividade.user = user
         atividade.save()
-        _salvar_tags(data['tags'], user, atividade)
+        if data['tags']:
+            _salvar_tags(data['tags'], user, atividade)
 
         return super(AdicionarAtividade, self).form_valid(form)
-
+    def form_invalid(self, form):
+        print form.errors
 
 class RelatorioSemanal(TemplateView):
     """
