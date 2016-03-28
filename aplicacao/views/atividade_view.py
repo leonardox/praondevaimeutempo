@@ -155,12 +155,14 @@ class RelatorioSemanal(TemplateView):
         except:
             return redirect('login')
         resumo_categ = None
+        selected_cat = "NENHUMA"
         categs = ["NENHUMA", "TRABALHO", "LAZER"]
         if "categ" in request.GET and request.GET.get("categ") != "NENHUMA":
             atividades_semanas = _get_atividades_por_categoria(request.session['id'],
                                                                request.GET.get("categ"))
             resumo_categ = _get_resume_categ(atividades_semanas)
-            categs.insert(0, categs.pop(categs.index(request.GET.get("categ"))))
+            selected_cat = request.GET.get("categ")
+            #categs.insert(0, categs.pop(categs.index(request.GET.get("categ"))))
 
         if 'tag' in request.GET and request.GET['tag'] != 'Nenhuma':
             resumo, total_horas, total_prioritarias = _get_resume(
@@ -178,7 +180,8 @@ class RelatorioSemanal(TemplateView):
                                         foto=request.session['foto'],
                                         nome=request.session['nome'],
                                         tags=tags,
-                                        selecionado=selecionado)
+                                        selecionado=selecionado,
+                                        selected_cat = selected_cat)
         if resumo_categ:
             context['resumo_categ'] = resumo_categ
         return self.render_to_response(context)

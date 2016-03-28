@@ -23,11 +23,12 @@
                     <div class="box-header">
                         <h3 class="box-title text-danger text-center">Relatório semanal</h3>
 
-                            <div class="box-tools" style="width:250px">
-                                <div class="row">
-                                <div class="col-sm-6" style="float:right; margin-right: 40px;">
+                        <div class="box-tools" style="width:250px">
+                            <div class="row">
+                                <div class="col-sm-6 pull-right" style="float:right;">
                                     <form method="get" action="">
-                                        <select id='id_tag' name="tag" class="form-control" onchange="filtrar()">
+                                        <select id='id_tag' name="tag" class="form-control"
+                                                onchange="filtrar()">
                                             <option>Nenhuma</option>
                                             {% for tag in tags %}
                                                 {% if tag == selecionado %}
@@ -37,17 +38,13 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
-                                        <button type="submit" id="id_filtrar" class="hidden"></button>
+                                        <button type="submit" id="id_filtrar"
+                                                class="hidden"></button>
                                     </form>
                                 </div>
-                                </div>
                             </div>
-
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-default btn-sm"><i
-                                    class="fa fa-refresh"></i></button>
                         </div>
+
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body text-center">
@@ -102,21 +99,26 @@
 
                         <div class="box-tools" style="width:250px">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <select name="categ" form="carform" class="form-control">
+                                <div class="col-sm-6 pull-right">
+                                    <select name="categ" form="carform" class="form-control"
+                                            onchange="filtrar2()">
                                         {% for item in categs %}
-                                            <option value="{{ item }}">{{ item }}</option>
+                                            {% if item == selected_cat %}
+                                                <option selected value="{{ item }}">{{ item }}</option>
+                                            {% else %}
+                                                <option value="{{ item }}">{{ item }}</option>
+                                            {% endif %}
                                         {% empty %}
                                             <option value="NENHUMA">NENHUMAzz</option>
                                             <option value="TRABALHO">TRABALHO</option>
                                             <option value="LAZER">LAZER</option>
                                         {% endfor %}
                                     </select>
-                                </div> class="hidden"
+                                </div>
                                 <div class="col-sm-4">
                                     <form action="" id="carform">
-                                        <input type="submit" value="Selecionar"
-                                               class="btn btn-danger">
+                                        <input type="submit" value="Selecionar" id="bt_category"
+                                               class="btn btn-danger hidden">
                                     </form>
                                 </div>
                             </div>
@@ -168,6 +170,9 @@
     <script>
         function filtrar() {
             $('#id_filtrar').click();
+        }
+        function filtrar2() {
+            $('#bt_category').click();
         }
     </script>
 {% endblock %}
